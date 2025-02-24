@@ -4,8 +4,9 @@ from SigninSignup import *
 from bank_system import *
 import smtplib
 print("Bank Mangnment system project")
-my_emal="futsumhal@gmail.com"
-password="ybexcscncdvnkyrf"
+my_emal="dbbank.11@gmail.com"
+password="tjcpdtspmbwgdwqu"
+password="tjcpdtspmbwgdwqu"
 status=True
 
 
@@ -51,12 +52,11 @@ while status:
                         baob.deposit(amount)
                         mydb.commit()
                         balance = db_query(f"SELECT balance FROM customers WHERE username='{user}';")
-                        connection = smtplib.SMTP("smtp.gmail.com")
-                        connection.starttls()
+                        connection = smtplib.SMTP_SSL("smtp.gmail.com")
                         connection.login(user=my_emal, password=password)
                         connection.sendmail(from_addr=my_emal,
                                             to_addrs=user_email,
-                                            msg=f"Subject:HEllo\n\nDear {user} your account {account_number[0][0]} has been Credited with ETB{amount} successfully.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with us.")
+                                            msg=f"Subject:Deposit Confirmation-Account{account_number[0][0]}\n\nDear {user}.\nWe are pleased to inform you that a deposit ETB{amount} has been successfully made to your account{account_number[0][0]}.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with BBANK.")
                         connection.close()
                         break
                     except ValueError:
@@ -75,12 +75,12 @@ while status:
                         baob.withdraw(amount)
                         mydb.commit()
                         balance = db_query(f"SELECT balance FROM customers WHERE username='{user}';")
-                        connection = smtplib.SMTP("smtp.gmail.com")
-                        connection.starttls()
+                        connection = smtplib.SMTP_SSL("smtp.gmail.com")
+                        # connection.starttls()
                         connection.login(user=my_emal, password=password)
                         connection.sendmail(from_addr=my_emal,
                                             to_addrs=user_email,
-                                            msg=f"Subject:HEllo\n\nDear {user} your account {account_number[0][0]} has been debited with ETB{amount} successfully.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with us.")
+                                            msg=f"ubject:Withdraw Confirmation-Account{account_number[0][0]}\n\nDear {user}.\nThis is to notify you that a Withdrawal of  ETB{amount} has been made successfully from your account{account_number[0][0]}.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with BBANK.")
                         connection.close()
                         break
                     except ValueError:
@@ -106,15 +106,15 @@ while status:
                             balance2 = db_query(f"SELECT balance FROM customers WHERE account_number='{receiver}';")[0][0]
                             user2 = db_query(f"SELECT username FROM customers WHERE account_number='{receiver}';")[0][0]
                             user2_email = db_query(f"SELECT email FROM customers WHERE account_number='{receiver}';")
-                            connection = smtplib.SMTP("smtp.gmail.com")
-                            connection.starttls()
+                            connection = smtplib.SMTP_SSL("smtp.gmail.com")
+                            # connection.starttls()
                             connection.login(user=my_emal, password=password)
                             connection.sendmail(from_addr=my_emal,
                                                 to_addrs=user_email,
-                                                msg=f"Subject:HEllo\n\nDear {user} your account {account_number[0][0]} has been debited with ETB{amount} successfully.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with us.")
+                                                msg=f"Subject:Fund Transfer Confimation - Account{account_number[0][0]}\n\nDear {user}.\n We are pleased to inform you that your fund transfer request  ETB{amount} has been successfully processed.Your Current Balance is ETB{balance[0][0]}.Thank you for Banking with BBANK.")
                             connection.sendmail(from_addr=my_emal,
                                                 to_addrs=user2_email,
-                                                msg=f"Subject:HEllo\n\nDear {user2} your account {receiver} has been Credited with ETB{amount} successfully.Your Current Balance is ETB{balance2}.Thank you for Banking with us.")
+                                                msg=f"Subject:Fund Receipt Confirmation - Account{receiver} \n\nDear {user2}.\n We are pleased to inform you that ETB{amount} has been successfully received in your account-{receiver} .Your Current Balance is ETB{balance2}.Thank you for Banking with us.")
                             connection.close()
 
                             break

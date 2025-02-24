@@ -4,9 +4,8 @@ from User import *
 import smtplib
 from bank_system import *
 from werkzeug.security import generate_password_hash,check_password_hash
-
-my_emal="futsumhal@gmail.com"
-password="ybexcscncdvnkyrf"
+my_emal="dbbank.11@gmail.com"
+email_password="tjcpdtspmbwgdwqu"
 def SignUP():
     username = input("create username: ")
     temp = db_query(f"SELECT username FROM customers WHERE username='{username}';")
@@ -28,18 +27,17 @@ def SignUP():
                 continue
             else:
                 print(f"This Is Your Account_number{account_number}")
-                user_email = db_query(f"SELECT email FROM customers WHERE username='{username}';")
-                connection = smtplib.SMTP("smtp.gmail.com")
-                connection.starttls()
-                connection.login(user=my_emal, password=password)
+                connection = smtplib.SMTP_SSL("smtp.gmail.com")
+                connection.login(user=my_emal, password=email_password)
                 connection.sendmail(from_addr=my_emal,
-                                    to_addrs=user_email,
-                                    msg=f"Subject:HEllo\n\nDear {username} your account Registered  successfully.Thank you for Banking with us.")
+                                    to_addrs=email,
+                                    msg=f"Subject:WELCOME TO BBANK\n\nWe are pleased to inform you that your account has been successfully created at BBANK. Your account number is {account_number}. .Thank you for choosing BBANK as your Trusted financial partner.")
+                connection.close()
                 break
 
     cusobj = Customer(username, hashed_password, name,email, age, city, account_number)
     cusobj.createuser()
-    connection.close()
+
     baobj=Bank(username,account_number)
     baobj.create_transaction_table()
 
